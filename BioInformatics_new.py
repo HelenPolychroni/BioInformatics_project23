@@ -86,5 +86,6 @@ print("Initial probabilities are: ", start_p)
 print("Transition dictionary is: ", trans_p)
 print("Emission dictionary is: ", emiss_p)
 print("-----------------------------------------------------------------------------------------------------------------------")
+
 # call viterbi function
 viterbi(observations, start_p, trans_p, emiss_p)
