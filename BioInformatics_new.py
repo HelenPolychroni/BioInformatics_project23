@@ -6,54 +6,70 @@ Viterbi algorithm
 sequence = GGCT
 '''
 
-def viterbi(observations, start_p, trans_p, emiss_p):
+def viterbi(observations, states, start_p, trans_p, emiss_p):
     
-    V = {} # dict to handle keys and values for each stage
+    V = [{}] # dict to handle keys and values for each stage
     
     # compute initial probalities (start_p)
-    dict = {}
-    i = 1
+    i = 0
     for s in states:  # a, b
         p =  emiss_p[s][observations[0]] * start_p[s]
-        dict[s] = p
-        V[i] = dict
+        V[i][s] = {"prob": p, "prev_node": None}
     
     i+=1        
     # deal with the rest
     for symbol in observations[1:]:  # after the 1st symbol
-        dict = {}
+        V.append({})
         for s in states:  # a, b
-            max2 = -1000
-            for s1 in states:
-                p = emiss_p[s][symbol] * trans_p[s][s1]
-                p1 = p * V[i-1][s1]
-                if p1 > max2:
+            p1 = trans_p[states[0]][s] * V[i-1][states[0]]["prob"]
+            prev_s = states[0]
+            
+            for s1 in states[1:]:
+                p2 = trans_p[s1][s] * V[i-1][s1]["prob"]
+                if p1 > p2:
                     max2 = p1
-            dict[s] = max2  # get the max probability
-            V[i] = dict
+                else: 
+                    max2 = p2 
+                    prev_s = s1
+                
+            max_p = max2  * emiss_p[s][symbol]  # get the max probability
+            V[i][s] = {"prob": max_p, "prev_node": prev_s}
         i+=1
     
-    print("\nDict:\n", V)
     
-    # log2 dictionary items
-    log_dict = {
-    key: {inner_key: math.log2(value) for inner_key, value in inner_dict.items()}
-    for key, inner_dict in V.items()}
+    # log2 list items
+    for dictionary in V:
+        for key, value in dictionary.items():
+            if 'prob' in value:
+                value['prob'] = math.log(value['prob'])
     
-    print("\nLog2 dict: \n", log_dict)
+    print("\nLog2 items: \n", V)
     
-    # find the most possible sequence --> find the max element for each key
-    max_elements = {key: max(value.items(), key=lambda x: x[1]) for key, value in log_dict.items()}
-
-    most_pos_seq = []
-    print("\nMax elements for each key:")
-    for key, (inner_key, value) in max_elements.items():
-        print("Outside key: ",key,", Inner key: ", inner_key, ", with value: ", value)
-        most_pos_seq.append(inner_key)
     
-    print("\nMost possible sequence:\n",most_pos_seq)
-    return 0
-
+    '''
+    find the most possible sequence 
+    1. find the maximum probability state for the last element
+    2. backtracking following the previous states/nodes
+    '''
+    pos_sequence = [] # most possible sequence
+    max_p = -1000.0   # max probability
+    best_state = None
+    
+    # find the maximum probability state for the last element
+    for state, data in V[-1].items():
+        if data["prob"] > max_p:
+            max_p = data["prob"]
+            best_state = state
+    pos_sequence.append(best_state)
+    previous = best_state
+    
+    # backtracking
+    for i in range(len(V) - 1, 0, -1):
+        pos_sequence.insert(0, V[i][previous]["prev_node"])
+        previous = V[i][previous]["prev_node"]
+ 
+    print ("\nMost possible sequence is: ", pos_sequence ," with highest probability of ", max_p)
+ 
 
 '''
 Main programm
@@ -88,4 +104,4 @@ print("Emission dictionary is: ", emiss_p)
 print("-----------------------------------------------------------------------------------------------------------------------")
 
 # call viterbi function
-viterbi(observations, start_p, trans_p, emiss_p)
+viterbi(observations, states, start_p, trans_p, emiss_p)
