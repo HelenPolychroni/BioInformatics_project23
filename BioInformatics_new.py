@@ -52,8 +52,7 @@ def viterbi(observations, start_p, trans_p, emiss_p):
         most_pos_seq.append(inner_key)
     
     print("\nMost possible sequence:\n",most_pos_seq)
-    return 0
-
+   
 
 '''
 Main programm
