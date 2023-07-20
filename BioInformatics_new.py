@@ -80,7 +80,7 @@ emiss_p = {
 }
 
 # print some usefull stuff
-print("\nOutput sequence is: ", observations)
+print("\nObservation sequence is: ", observations)
 print("\nHidden states are: ", states)
 print("Initial probabilities are: ", start_p)
 print("Transition dictionary is: ", trans_p)
