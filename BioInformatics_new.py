@@ -5,15 +5,14 @@ import math
 Viterbi algorithm 
 sequence = GGCT
 '''
-
-def viterbi(observations, states, start_p, trans_p, emiss_p):
+def viterbi(observations, states, initial_p, trans_p, emiss_p):
     
-    V = [{}] # dict to handle keys and values for each stage
+    V = [{}] # list dict to handle keys and values for each stage
     
-    # compute initial probalities (start_p)
+    # compute initial probalities (initial_p)
     i = 0
     for s in states:  # a, b
-        p =  emiss_p[s][observations[0]] * start_p[s]
+        p =  emiss_p[s][observations[0]] * initial_p[s]
         V[i][s] = {"prob": p, "prev_node": None}
     
     i+=1        
@@ -23,7 +22,6 @@ def viterbi(observations, states, start_p, trans_p, emiss_p):
         for s in states:  # a, b
             p1 = trans_p[states[0]][s] * V[i-1][states[0]]["prob"]
             prev_s = states[0]
-            
             for s1 in states[1:]:
                 p2 = trans_p[s1][s] * V[i-1][s1]["prob"]
                 if p1 > p2:
@@ -37,7 +35,7 @@ def viterbi(observations, states, start_p, trans_p, emiss_p):
         i+=1
     
     
-    # log2 list items
+    # log2 list items because of overflow
     for dictionary in V:
         for key, value in dictionary.items():
             if 'prob' in value:
@@ -55,13 +53,13 @@ def viterbi(observations, states, start_p, trans_p, emiss_p):
     max_p = -1000.0   # max probability
     best_state = None
     
-    # find the maximum probability state for the last element
+    # find the maximum probability state for the last element of the sequence
     for state, data in V[-1].items():
         if data["prob"] > max_p:
             max_p = data["prob"]
             best_state = state
     pos_sequence.append(best_state)
-    previous = best_state
+    previous = best_state   # previous state
     
     # backtracking
     for i in range(len(V) - 1, 0, -1):
@@ -82,7 +80,7 @@ observations = ("G", "G", "C", "T")
 states = ("a", "b")
 
 # dictionary of initial probabilities
-start_p = {"a": 0.5, "b": 0.5} 
+initial_p = {"a": 0.5, "b": 0.5} 
 
 # transition dictionary 
 trans_p = {
@@ -97,11 +95,12 @@ emiss_p = {
 }
 
 # print some usefull stuff
+print("\nObservation sequence is: ", observations)
 print("\nHidden states are: ", states)
-print("Initial probabilities are: ", start_p)
+print("Initial probabilities are: ", initial_p)
 print("Transition dictionary is: ", trans_p)
 print("Emission dictionary is: ", emiss_p)
 print("-----------------------------------------------------------------------------------------------------------------------")
 
 # call viterbi function
-viterbi(observations, states, start_p, trans_p, emiss_p)
+viterbi(observations, states, initial_p, trans_p, emiss_p)
