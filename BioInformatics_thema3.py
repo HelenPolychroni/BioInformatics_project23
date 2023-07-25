@@ -31,6 +31,56 @@ print("Length of 2nd sequence is: (m) ",m)
 3. (0,x) for x>= 0 and x<= m
 '''
 
+# initialize R table
+def initialize_table(m, n, default_value=0):
+    R = [[default_value for _ in range(n)] for _ in range(m)]
+    return R
+
+def print_table(R):
+    for row in R:
+        print(row)
+
+# build the table first   m x n
+def build_Rtable(m, n):
+    '''
+    R table with:
+    m rows 
+    n columns
+    
+    states:
+    FS: Final State
+    W: Win
+    L: Lose
+    '''
+    print("Function to create table here...")
+    
+    # let's start
+    R = initialize_table(m, n)
+    
+    # initialize 1st row with FS value
+    i = 0
+    for j in range(n):
+        R[i][j] = 'FS'
+    
+    # initialize 1st column with FS value
+    for j in range(m):
+        R[j][i] = 'FS'
+    
+    # initialize 2nd and 3rd row, column with W value
+    
+    
+    
+    print("\nR table is:\n")
+    print_table(R)
+    
+    return 0
+    
+
+
+
+
+
+
 def player1_playing(n, m):  # = Human is playing
     
     flag = False
@@ -86,7 +136,7 @@ def player1_playing(n, m):  # = Human is playing
 
 def player2_playing(n, m):  # Computer is playing
     
-    print("\nPlayer2 is playing:")    
+    print("\nPlayer2 is playing (computer):")    
     
     flag = False
     
@@ -148,8 +198,16 @@ def player2_playing(n, m):  # Computer is playing
         
 
 # main programm
-n = 6
-m = 1
+
+
+n = 5
+m = 5
+
+# call function to build the R table
+build_Rtable(m, n)
+
+
+'''
 print("\nn: ", n)
 print("m: ", m)
 print("---------------")
@@ -163,5 +221,5 @@ if (random_player == players_list[0]):
 else:
     player2_playing(n, m)
     
-
+'''
    
