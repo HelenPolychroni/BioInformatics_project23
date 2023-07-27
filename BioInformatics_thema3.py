@@ -48,7 +48,7 @@ def build_Rtable(m, n):
     n columns
     
     states:
-    FS: Final State
+    E: End of game
     W: Win
     L: Lose
     '''
@@ -57,29 +57,53 @@ def build_Rtable(m, n):
     # let's start
     R = initialize_table(m, n)
     
-    # initialize 1st row with FS value
+    # initialize 1st row with E value
     i = 0
     for j in range(n):
-        R[i][j] = 'FS'
+        R[i][j] = 'E'
     
-    # initialize 1st column with FS value
+    # initialize 1st column with E value
     for j in range(m):
-        R[j][i] = 'FS'
+        R[j][i] = 'E'
+    
+    # initialize cell (1,1) with E value
+    R[1][1] = 'E'
     
     # initialize 2nd and 3rd row, column with W value
+    for r in range(1,3):  
+        for i in range(1, n):
+            R[r][i] = 'W'
+            
+    for i in range(1,n):        
+        for c in range(1,3):
+            R[i][c] = 'W'
+            
+    # initialize cell (1,1) with E value
+    R[1][1] = 'E'
     
     
+    # deal with the rest table
+    # 3rd and 4th column after the 3rd row
+    for c in range(3,n): # columns
+        for r in range(3,m):  # rows
+            # R[i][j]
+            print(c,r)
+            print("1st: ",R[c-2][r-1])
+            print("2nd: ",R[c-1][r-2])
+            if (R[c-2][r-1] == 'W' and R[c-1][r-2] == 'W'):
+                R[c][r] = 'L'
+            elif (R[c-2][r-1] == 'L' and R[c-1][r-2] == 'L'):
+                R[c][r] = 'W'
+            elif ((R[c-2][r-1] == 'L' or R[c-1][r-2] == 'L') and (R[c-2][r-1] == 'W' or R[c-1][r-2] == 'W')):
+                R[c][r] = 'L'
+            elif (R[c-2][r-1] == 'E' or R[c-1][r-2] == 'E'):
+                R[c][r] = 'W'
     
     print("\nR table is:\n")
     print_table(R)
     
-    return 0
+    return R
     
-
-
-
-
-
 
 def player1_playing(n, m):  # = Human is playing
     
