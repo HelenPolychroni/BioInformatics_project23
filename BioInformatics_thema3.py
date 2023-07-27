@@ -218,32 +218,96 @@ def player2_playing(n, m):  # Computer is playing
         print("Player2 wins!")
         print("\nGame ends!")
         
+
+def game_strategy(R, m, n, num):
+    
+    next = 0   # next player
+    if (num == 1):
+        next = 2
+    else:
+        next = 1
         
+    print("\nPlayer", num," is playing.")
+    
+    flag = False   
+    #while (flag == False):
+        
+    if (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'W'):  # both W states
+        move = random.choice([1, 2])
+        if (move == 1):
+            m = m -2
+            n = n-1
+        else:
+            m = m - 1
+            n = n -2
+    
+    elif (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'L'):  
+        # choose W state
+        m = m - 2
+        n = n - 1
+        
+    elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'W'):
+        # choose W state
+        m = m - 1
+        n = n - 2
+        
+    elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'L'):
+        move = random.choice([1, 2])
+        if (move == 1):
+            m = m - 2
+            n = n - 1 
+        else:
+            m = m - 1
+            n = n - 2
+        
+    elif (R[m-2][n-1] == 'E') :
+        m = m - 2
+        n = n - 1 
+            
+    elif (R[m-1][n-2] == 'E') :
+        m = m - 1
+        n = n - 2
+        
+    if (R[m][n] == 'E'):
+        # we have a winner
+        print("\nOut of moves")
+        print("Winner: player", num)   
+        flag = True
+        
+   
+    if (flag == False) : 
+        
+        print("\nnew n: ", n)
+        print("new m: ",m)     
+       
+        game_strategy(R, m, n, next)
+    
+    #print("\nWinner: ",player)   
+    return 0    
         
 
 # main programm
-
-
-n = 5
-m = 5
+n = 5   # columns
+m = 5   # rows
 
 # call function to build the R table
-build_Rtable(m, n)
+R = build_Rtable(m, n)
 
 
-'''
 print("\nn: ", n)
 print("m: ", m)
 print("---------------")
 print("\nGame is starting:")
-players_list = ["Player 1", "Player2"]
+#players_list = ["Player 1", "Player2"]
 
 # Choose randomly a player to start the game
-random_player = random.choice(players_list)
-if (random_player == players_list[0]):
-    player1_playing(n, m)
-else:
-    player2_playing(n, m)
+random_player = random.randrange(1,3)
+#if (random_player == players_list[0]):
+    #player1_playing(n, m)
+game_strategy(R, m, n, random_player)
+#else:
+#game_strategy(R, m, n, random_player)
+    #player2_playing(n, m)
     
-'''
+
    
