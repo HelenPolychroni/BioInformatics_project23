@@ -36,26 +36,37 @@ def initialize_table(m, n, default_value=0):
     R = [[default_value for _ in range(n)] for _ in range(m)]
     return R
 
+# print R table
 def print_table(R):
     for row in R:
         print(row)
 
-# build the table first   m x n
+# fill the R table with values
 def build_Rtable(m, n):
     '''
     R table with:
     m rows 
     n columns
     
-    states:
+    states (values):
     E: End of game
     W: Win
     L: Lose
     '''
-    print("Function to create table here...")
+    print("Function to fill table here...")
     
     # let's start
     R = initialize_table(m, n)
+    
+    # Number of rows
+    num_rows = len(R)
+
+    # Number of columns (assuming all rows have the same length)
+    num_columns = len(R[0])
+
+    # Printing the results
+    print("Number of rows:", num_rows)
+    print("Number of columns:", num_columns)
     
     # initialize 1st row with E value
     i = 0
@@ -71,10 +82,10 @@ def build_Rtable(m, n):
     
     # initialize 2nd and 3rd row, column with W value
     for r in range(1,3):  
-        for i in range(1, n):
+        for i in range(1, n):  # number of columns
             R[r][i] = 'W'
             
-    for i in range(1,n):        
+    for i in range(1,m):      # number of rows
         for c in range(1,3):
             R[i][c] = 'W'
             
@@ -83,13 +94,10 @@ def build_Rtable(m, n):
     
     
     # deal with the rest table
-    # 3rd and 4th column after the 3rd row
-    for c in range(3,n): # columns
-        for r in range(3,m):  # rows
+    # 3rd till m column after the 3rd row
+    for c in range(3,m): # columns
+        for r in range(3,n):  # rows
             # R[i][j]
-            print(c,r)
-            print("1st: ",R[c-2][r-1])
-            print("2nd: ",R[c-1][r-2])
             if (R[c-2][r-1] == 'W' and R[c-1][r-2] == 'W'):
                 R[c][r] = 'L'
             elif (R[c-2][r-1] == 'L' and R[c-1][r-2] == 'L'):
@@ -105,121 +113,11 @@ def build_Rtable(m, n):
     return R
     
 
-def player1_playing(n, m):  # = Human is playing
-    
-    flag = False
-    print("\nPlayer1 is playing:")
-    
-    #if ((n != 0 or m != 0) and (n !=1 and m != 1)):
-    if ((n >= 1 and m >= 2) or (n >= 2 and m >= 1 )):
-        
-        sequence = None
-       
-        while (sequence != "1" and sequence != "2"):
-            
-            sequence = input("Choose from which sequence you want to remove 2 nucleotides (type 1 or 2): ")
-           
-            if (sequence != "1" and sequence != "2"):
-                print("Invalid input. Please type 1 or 2.")
-            elif ((sequence == '1' and n < 2 ) or (sequence == '2' and m < 2)):
-                sequence = input("Not enough number of noucleotides to be removed, choose again: ")    
-           
-        #print("2 noucleotides have just been removed from sequence no",sequence,".")
-        #print("1 noucleotide has just been removed from the other sequence.")
-        
-        if (sequence == '1'):
-            n = n - 2
-            m = m -1
-            
-        else:  # sequence == '2'
-            m = m - 2
-            n = n - 1
-         
-        print("\nnew n: ", n)
-        print("new m:", m)
-            
-        #if ((n == 0 and m == 0) or (n == 1 and m == 1 ) or (n == 0 or m == 0)):
-            #print("Player2 wins!")
-            #flag = True
-    
-        
-        #if (flag == False):
-            
-        player2_playing(n, m)
-        '''
-        else:
-            print("Out of moves")
-            print("Player2 wins!")
-            print("Game ends!")
-        '''
-    else:
-        print("\nOut of moves.")
-        print("Player1 wins!")
-        print("\nGame ends!")
-    
-
-def player2_playing(n, m):  # Computer is playing
-    
-    print("\nPlayer2 is playing (computer):")    
-    
-    flag = False
-    
-    #if ((n != 0 or m != 0) and (n !=1 and m != 1)):
-    if ((n >= 1 and m >= 2) or (n >= 2 and m >= 1 )):
-        
-        # find the sequence with the max length and remove 2 noucleotides from this
-        max1 = max(n,m)
-        
-        if (max1 == n):  # 1st sequence
-            n -= 2
-            m -= 1
-        else:            # 2nd sequence
-            m -= 2
-            n -= 1
-            
-        '''    
-        r = random.randint(1, 2)  # randomly choose the number of noucleotides to be removed from 1st sequence
-        sequence_list = [m, n]
-        random_sequence = random.choice(sequence_list)
-        
-        if(random_sequence == n and n >= r):  # 1st sequence
-            n = n - r
-            
-            r1 = 2
-            
-            if (r != r1):
-                if (m >= r1):
-                    m = m - r1
-            else:
-                m = m - 1
-        '''
-        
-        print("Player2 has just played.")
-        
-        print("\nnew n: ", n)
-        print("new m:", m)
-        
-        '''
-        if ((n == 0 and m == 0) or (n == 1 and m == 1 ) or (n == 0 or m == 0)):
-            #print("Player1 wins!")
-            flag = True
-    
-        if (flag == False):
-        '''
-        player1_playing(n, m)
-        
-        '''
-        else:
-            print("Player1 wins!")
-            print("Game ends!")
-        '''
-    else:
-        print("\nOut of moves.")
-        print("Player2 wins!")
-        print("\nGame ends!")
-        
-
 def game_strategy(R, m, n, num):
+    
+    #print("m: ",m)
+    #print("n: ",n)
+    #print("element R[m][n]",R[m][n])
     
     next = 0   # next player
     if (num == 1):
@@ -227,19 +125,24 @@ def game_strategy(R, m, n, num):
     else:
         next = 1
         
-    print("\nPlayer", num," is playing.")
+    print("\nPlayer", num," is playing:")
     
     flag = False   
-    #while (flag == False):
-        
+    
+    if (R[m][n] == 'E'):
+        # we have a winner
+        print("Out of moves")
+        print("\nWinner: Player", num)   
+        flag = True
+           
     if (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'W'):  # both W states
         move = random.choice([1, 2])
         if (move == 1):
             m = m -2
-            n = n-1
+            n = n- 1
         else:
             m = m - 1
-            n = n -2
+            n = n - 2
     
     elif (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'L'):  
         # choose W state
@@ -259,6 +162,15 @@ def game_strategy(R, m, n, num):
         else:
             m = m - 1
             n = n - 2
+            
+    elif ((R[m-2][n-1] == 'E') and (R[m-1][n-2] == 'E')) :
+        move = random.choice([1, 2])
+        if (move == 1):
+            m = m - 2
+            n = n - 1 
+        else:
+            m = m - 1
+            n = n - 2   
         
     elif (R[m-2][n-1] == 'E') :
         m = m - 2
@@ -267,47 +179,42 @@ def game_strategy(R, m, n, num):
     elif (R[m-1][n-2] == 'E') :
         m = m - 1
         n = n - 2
-        
+    
+    '''    
     if (R[m][n] == 'E'):
         # we have a winner
         print("\nOut of moves")
         print("Winner: player", num)   
         flag = True
-        
+    '''   
    
     if (flag == False) : 
         
-        print("\nnew n: ", n)
-        print("new m: ",m)     
-       
+        print("New m: ",m)
+        print("New n: ", n)
+        #print("\n")     
         game_strategy(R, m, n, next)
     
-    #print("\nWinner: ",player)   
     return 0    
         
 
 # main programm
-n = 5   # columns
-m = 5   # rows
+
+m = 6   # rows
+n = 8   # columns
+
 
 # call function to build the R table
 R = build_Rtable(m, n)
 
-
-print("\nn: ", n)
-print("m: ", m)
+print("\nm: ", m)
+print("n: ", n)
 print("---------------")
 print("\nGame is starting:")
-#players_list = ["Player 1", "Player2"]
 
 # Choose randomly a player to start the game
 random_player = random.randrange(1,3)
-#if (random_player == players_list[0]):
-    #player1_playing(n, m)
-game_strategy(R, m, n, random_player)
-#else:
-#game_strategy(R, m, n, random_player)
-    #player2_playing(n, m)
-    
+game_strategy(R, m-1, n-1, random_player)
+
 
    
