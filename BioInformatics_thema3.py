@@ -53,7 +53,6 @@ def build_Rtable(m, n):
     W: Win
     L: Lose
     '''
-    print("Function to fill table here...")
     
     # let's start
     R = initialize_table(m, n)
@@ -65,7 +64,7 @@ def build_Rtable(m, n):
     num_columns = len(R[0])
 
     # Printing the results
-    print("Number of rows:", num_rows)
+    print("\nNumber of rows:", num_rows)
     print("Number of columns:", num_columns)
     
     # initialize 1st row with E value
@@ -114,10 +113,6 @@ def build_Rtable(m, n):
     
 
 def game_strategy(R, m, n, num):
-    
-    #print("m: ",m)
-    #print("n: ",n)
-    #print("element R[m][n]",R[m][n])
     
     next = 0   # next player
     if (num == 1):
@@ -180,14 +175,7 @@ def game_strategy(R, m, n, num):
         m = m - 1
         n = n - 2
     
-    '''    
-    if (R[m][n] == 'E'):
-        # we have a winner
-        print("\nOut of moves")
-        print("Winner: player", num)   
-        flag = True
-    '''   
-   
+    
     if (flag == False) : 
         
         print("New m: ",m)
@@ -195,11 +183,8 @@ def game_strategy(R, m, n, num):
         #print("\n")     
         game_strategy(R, m, n, next)
     
-    return 0    
-        
-
+    
 # main programm
-
 m = 6   # rows
 n = 8   # columns
 
