@@ -11,7 +11,7 @@ with open("sequence1.txt", "r") as file:
     # read sequence from file
     sequence1 = file.read().strip()
     
-n = len(sequence1)
+m = len(sequence1)
 
 ''' Sequence 2'''
 # open file to read
@@ -19,17 +19,8 @@ with open("sequence2.txt", "r") as file:
     # read sequence from file
     sequence2 = file.read().strip()
 
-m = len(sequence2)
+n = len(sequence2)
 
-print("\nLength of 1st sequence is: (n) ",n)
-print("Length of 2nd sequence is: (m) ",m)
-
-'''
-3 terminal states (n,m):
-1. (1,1)
-2. (x,0) for x>= 0 and x<=n 
-3. (0,x) for x>= 0 and x<= m
-'''
 
 # initialize R table
 def initialize_table(m, n, default_value=0):
@@ -64,6 +55,9 @@ def build_Rtable(m, n):
     num_columns = len(R[0])
 
     # Printing the results
+    print("\nLength of 1st sequence is: (m) ",m)
+    print("Length of 2nd sequence is: (n) ",n)
+
     print("\nNumber of rows:", num_rows)
     print("Number of columns:", num_columns)
     
@@ -191,16 +185,15 @@ def game_strategy(R, m, n, num):
     
     
 # main programm
-m = 5   # rows
-n = 6   # columns
+m = 4   # rows
+n = 5   # columns
 
 
 # call function to build the R table
 R = build_Rtable(m, n)
 
-print("\nm: ", m-1)
-print("n: ", n-1)
-print("---------------")
+print("\nLast table cell's position: (",m-1,",",n-1,")")
+print("-------------------------------------")
 print("\nGame is starting:")
 
 # Choose randomly a player to start the game
