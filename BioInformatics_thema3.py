@@ -99,12 +99,16 @@ def build_Rtable(m, n):
             # R[i][j]
             if (R[c-2][r-1] == 'W' and R[c-1][r-2] == 'W'):
                 R[c][r] = 'L'
+            elif (R[c-2][r-1] == 'L' or R[c-1][r-2] == 'L'):
+                R[c][r] = 'W'
+            '''    
             elif (R[c-2][r-1] == 'L' and R[c-1][r-2] == 'L'):
                 R[c][r] = 'W'
             elif ((R[c-2][r-1] == 'L' or R[c-1][r-2] == 'L') and (R[c-2][r-1] == 'W' or R[c-1][r-2] == 'W')):
-                R[c][r] = 'L'
-            elif (R[c-2][r-1] == 'E' or R[c-1][r-2] == 'E'):
-                R[c][r] = 'W'
+                R[c][r] = 'W' #  or L
+            '''
+            #elif (R[c-2][r-1] == 'E' or R[c-1][r-2] == 'E'):
+            #    R[c][r] = 'W'
     
     print("\nR table is:\n")
     print_table(R)
@@ -133,21 +137,21 @@ def game_strategy(R, m, n, num):
     if (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'W'):  # both W states
         move = random.choice([1, 2])
         if (move == 1):
-            m = m -2
-            n = n- 1
+            m = m - 2
+            n = n - 1
         else:
             m = m - 1
             n = n - 2
     
     elif (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'L'):  
         # choose W state
-        m = m - 2
-        n = n - 1
+        m = m - 1
+        n = n - 2
         
     elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'W'):
         # choose W state
-        m = m - 1
-        n = n - 2
+        m = m - 2
+        n = n - 1
         
     elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'L'):
         move = random.choice([1, 2])
@@ -157,7 +161,8 @@ def game_strategy(R, m, n, num):
         else:
             m = m - 1
             n = n - 2
-            
+     
+      
     elif ((R[m-2][n-1] == 'E') and (R[m-1][n-2] == 'E')) :
         move = random.choice([1, 2])
         if (move == 1):
@@ -166,7 +171,8 @@ def game_strategy(R, m, n, num):
         else:
             m = m - 1
             n = n - 2   
-        
+    
+    
     elif (R[m-2][n-1] == 'E') :
         m = m - 2
         n = n - 1 
@@ -185,15 +191,15 @@ def game_strategy(R, m, n, num):
     
     
 # main programm
-m = 6   # rows
-n = 8   # columns
+m = 5   # rows
+n = 6   # columns
 
 
 # call function to build the R table
 R = build_Rtable(m, n)
 
-print("\nm: ", m)
-print("n: ", n)
+print("\nm: ", m-1)
+print("n: ", n-1)
 print("---------------")
 print("\nGame is starting:")
 
