@@ -21,6 +21,9 @@ with open("sequence2.txt", "r") as file:
 
 n = len(sequence2)
 
+print("\nLength of 1st sequence is: (m) ",m)
+print("Length of 2nd sequence is: (n) ",n)
+
 
 # initialize R table
 def initialize_table(m, n, default_value=0):
@@ -55,9 +58,6 @@ def build_Rtable(m, n):
     num_columns = len(R[0])
 
     # Printing the results
-    print("\nLength of 1st sequence is: (m) ",m)
-    print("Length of 2nd sequence is: (n) ",n)
-
     print("\nNumber of rows:", num_rows)
     print("Number of columns:", num_columns)
     
@@ -112,6 +112,7 @@ def build_Rtable(m, n):
 
 def game_strategy(R, m, n, num):
     
+    
     next = 0   # next player
     if (num == 1):
         next = 2
@@ -127,7 +128,8 @@ def game_strategy(R, m, n, num):
         print("Out of moves")
         print("\nWinner: Player", num)   
         flag = True
-           
+    
+    
     if (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'W'):  # both W states
         move = random.choice([1, 2])
         if (move == 1):
@@ -138,16 +140,17 @@ def game_strategy(R, m, n, num):
             n = n - 2
     
     elif (R[m-2][n-1] == 'W' and R[m-1][n-2] == 'L'):  
-        # choose W state
+        # choose L state
         m = m - 1
         n = n - 2
         
     elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'W'):
-        # choose W state
+        # choose L state
         m = m - 2
         n = n - 1
         
     elif (R[m-2][n-1] == 'L' and R[m-1][n-2] == 'L'):
+        # choose random a L state
         move = random.choice([1, 2])
         if (move == 1):
             m = m - 2
@@ -155,8 +158,8 @@ def game_strategy(R, m, n, num):
         else:
             m = m - 1
             n = n - 2
-     
-      
+    
+        
     elif ((R[m-2][n-1] == 'E') and (R[m-1][n-2] == 'E')) :
         move = random.choice([1, 2])
         if (move == 1):
@@ -167,11 +170,11 @@ def game_strategy(R, m, n, num):
             n = n - 2   
     
     
-    elif (R[m-2][n-1] == 'E') :
+    elif (R[m-2][n-1] == 'E') : # game is about to end
         m = m - 2
         n = n - 1 
             
-    elif (R[m-1][n-2] == 'E') :
+    elif (R[m-1][n-2] == 'E') : # game is about to end
         m = m - 1
         n = n - 2
     
@@ -180,7 +183,7 @@ def game_strategy(R, m, n, num):
         
         print("New m: ",m)
         print("New n: ", n)
-        #print("\n")     
+           
         game_strategy(R, m, n, next)
     
     
@@ -188,17 +191,19 @@ def game_strategy(R, m, n, num):
 m = 4   # rows
 n = 5   # columns
 
+print("\nLength of 1st sequence is: (m) ",m)
+print("Length of 2nd sequence is: (n) ",n)
 
 # call function to build the R table
-R = build_Rtable(m, n)
+R = build_Rtable(m+1, n+1)
 
-print("\nLast table cell's position: (",m-1,",",n-1,")")
+print("\nLast table cell's position: (",m,",",n,")")
 print("-------------------------------------")
 print("\nGame is starting:")
 
 # Choose randomly a player to start the game
 random_player = random.randrange(1,3)
-game_strategy(R, m-1, n-1, random_player)
+game_strategy(R, m, n, random_player)
 
 
    
