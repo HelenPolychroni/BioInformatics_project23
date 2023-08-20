@@ -198,6 +198,7 @@ print("Length of 2nd sequence is: (n) ",n)
 R = build_Rtable(m+1, n+1)
 
 print("\nLast table cell's position: (",m,",",n,")")
+print("\nLast table cell's value: ",R[m][n])
 print("-------------------------------------")
 print("\nGame is starting:")
 
