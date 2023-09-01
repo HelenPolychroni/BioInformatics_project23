@@ -199,11 +199,11 @@ def game_strategy(R, m, n, num):
 
 # main programm
 
-
+'''
 # a small example to run the programm
-m = 12  # rows
+m = 4  # rows
 n = 4   # columns
-
+'''
 
 
 # call function to build the R table
