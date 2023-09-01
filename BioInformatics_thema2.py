@@ -18,7 +18,7 @@ with open("sequence3.txt", "r") as file:
 n = len(sequence3)
 
 print("Length of 2nd sequence is: (m) ",m)
-print("Length of 1st sequence is: (n) ",n)
+print("Length of 3rd sequence is: (n) ",n)
 
 
 # initialize R table
@@ -69,7 +69,11 @@ def build_Rtable(m, n):
         R[j][0] = 'W'
     
     # initialize cell (i,i) with W value
-    for i in range (1,n+1):
+    min = n
+    if m<n:
+        min = m
+    for i in range (1,min+1):
+        #print(i)
         R[i][i] = 'W'
     
     #rest table with 'L'
@@ -124,7 +128,8 @@ def game_strategy(R, m, n, num):
 
 
     #if any move you do is winning for the rival, do one of them randomly, its the same
-    if (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'W'):  # WWW states
+    if (m-rndm>=0) and (n-rndm>=0):
+     if (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'W'):  # WWW states
         
         move = random.choice([1,3])
         
@@ -136,20 +141,20 @@ def game_strategy(R, m, n, num):
         elif (n-rndm>=0):
             n = n - rndm
 
-    elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'W') and (m-rndm>=0) and (n-rndm>=0):  # LWW states
+     elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'W') and (m-rndm>=0) and (n-rndm>=0):  # LWW states
         # choose L state
         m = m - rndm
         n = n - rndm
 
-    elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'W' and (m-rndm>=0)):  # WLW states
+     elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'W' and (m-rndm>=0)):  # WLW states
         # choose L state
         m = m - rndm
         
-    elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'L' and (n-rndm>=0)):  # WWL states
+     elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'L' and (n-rndm>=0)):  # WWL states
         # choose L state
         n = n - rndm
 
-    elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'L'):  # LLL states
+     elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'L'):  # LLL states
         move = random.choice([1,3])
         if (move == 1) and (m-rndm>=0) and (n-rndm>=0) :
             m = m - rndm
@@ -159,7 +164,7 @@ def game_strategy(R, m, n, num):
         elif (n-rndm>=0)  :
                 n = n - rndm
 
-    elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'L'): #WLL states
+     elif (R[m-rndm][n-rndm] == 'W' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'L'): #WLL states
         # choose L state
         move = random.choice([1,2])
         if (move == 1) and (m-rndm>=0):
@@ -167,7 +172,7 @@ def game_strategy(R, m, n, num):
         elif (n-rndm>=0):
             n = n - rndm
        
-    elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'L'): #LWL states
+     elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'W' and R[m][n-rndm] == 'L'): #LWL states
         # choose L state
         move = random.choice([1,2])
         if (move == 1) and (m-rndm>=0) and (n-rndm>=0):
@@ -176,7 +181,7 @@ def game_strategy(R, m, n, num):
         elif (n-rndm>=0) :
             n = n - rndm
 
-    elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'W'): #LLW states
+     elif (R[m-rndm][n-rndm] == 'L' and R[m-rndm][n] == 'L' and R[m][n-rndm] == 'W'): #LLW states
         # choose L state
         move = random.choice([1,2])
         if (move == 1) and (m-rndm>=0) and (n-rndm>=0):
@@ -194,8 +199,12 @@ def game_strategy(R, m, n, num):
 
 # main programm
 
-m = 4   # rows
-n = 3   # columns
+
+# a small example to run the programm
+m = 12  # rows
+n = 4   # columns
+
+
 
 # call function to build the R table
 R = build_Rtable(m, n)
