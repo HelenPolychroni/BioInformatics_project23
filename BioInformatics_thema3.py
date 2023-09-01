@@ -188,11 +188,16 @@ def game_strategy(R, m, n, num):
     
     
 # main programm
-m = 4   # rows
-n = 5   # columns
+
+'''
+# a small example to run the programm
+m = 3   # rows
+n = 3   # columns
+
 
 print("\nLength of 1st sequence is: (m) ",m)
 print("Length of 2nd sequence is: (n) ",n)
+'''
 
 # call function to build the R table
 R = build_Rtable(m+1, n+1)
